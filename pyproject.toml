@@ -17,6 +17,7 @@ dependencies = [
     "scikit-learn==1.2.2",
     "seaborn==0.12.2",
     "setuptools==65.5.0",
+    "streamlit>=1.55.0",
     "uvicorn==0.22.0",
     "xgboost==1.7.5",
 ]
@@ -25,3 +26,6 @@ dependencies = [
 dev = [
     "pre-commit>=4.5.1",
 ]
+
+[tool.ruff]
+line-length = 100

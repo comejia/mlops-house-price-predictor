@@ -35,9 +35,7 @@ def create_features(df):
     # Bedroom to bathroom ratio
     df_featured["bed_bath_ratio"] = df_featured["bedrooms"] / df_featured["bathrooms"]
     # Handle division by zero
-    df_featured["bed_bath_ratio"] = df_featured["bed_bath_ratio"].replace(
-        [np.inf, -np.inf], np.nan
-    )
+    df_featured["bed_bath_ratio"] = df_featured["bed_bath_ratio"].replace([np.inf, -np.inf], np.nan)
     df_featured["bed_bath_ratio"] = df_featured["bed_bath_ratio"].fillna(0)
     logger.info("Created 'bed_bath_ratio' feature")
 
@@ -61,14 +59,10 @@ def create_preprocessor():
     ]
 
     # Preprocessing for numerical features
-    numerical_transformer = Pipeline(
-        steps=[("imputer", SimpleImputer(strategy="mean"))]
-    )
+    numerical_transformer = Pipeline(steps=[("imputer", SimpleImputer(strategy="mean"))])
 
     # Preprocessing for categorical features
-    categorical_transformer = Pipeline(
-        steps=[("onehot", OneHotEncoder(handle_unknown="ignore"))]
-    )
+    categorical_transformer = Pipeline(steps=[("onehot", OneHotEncoder(handle_unknown="ignore"))])
 
     # Combine preprocessors in a column transformer
     preprocessor = ColumnTransformer(
@@ -117,16 +111,12 @@ def run_feature_engineering(input_file, output_file, preprocessor_file):
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Feature engineering for housing data."
-    )
+    parser = argparse.ArgumentParser(description="Feature engineering for housing data.")
     parser.add_argument("--input", required=True, help="Path to cleaned CSV file")
     parser.add_argument(
         "--output", required=True, help="Path for output CSV file (engineered features)"
     )
-    parser.add_argument(
-        "--preprocessor", required=True, help="Path for saving the preprocessor"
-    )
+    parser.add_argument("--preprocessor", required=True, help="Path for saving the preprocessor")
 
     args = parser.parse_args()
 
