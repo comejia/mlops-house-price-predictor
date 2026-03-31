@@ -5,7 +5,8 @@ __pycache__/
 
 # Ignore virtual environment
 venv/
-.env/
+.venv
+.env
 .envrc
 
 # Ignore Jupyter Notebook checkpoints
