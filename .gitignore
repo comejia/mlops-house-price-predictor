@@ -43,3 +43,6 @@ dist/
 
 # Ruff
 .ruff_cache/
+
+# CSV files
+data/processed/*.csv
