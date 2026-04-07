@@ -41,3 +41,5 @@ dist/
 # Ignore all .pkl files (models, preprocessors, etc.)
 *.pkl
 
+# Ruff
+.ruff_cache/
