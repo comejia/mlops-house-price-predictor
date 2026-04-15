@@ -23,7 +23,7 @@ on:
     types: [created]
     branches: [ main ]
     tags: [ v*.*.* ]
-        
+
 
 jobs:
   data-processing:

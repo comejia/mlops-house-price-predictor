@@ -164,6 +164,17 @@ curl -X POST "http://localhost:8000/predict" \
 Be sure to replace `http://localhost:8000/predict` with actual endpoint based on where its running. 
 
 
+---
+
+## Kubernetes Deployment
+
+To deploy the FastAPI and Streamlit apps on Kubernetes, you can follow these steps:
+1. **Build Docker Images**: Build the Docker images for both FastAPI and Streamlit apps using the respective Dockerfiles.
+2. **Push to Container Registry**: Push the built images to a container registry like Docker Hub or Google Container Registry.
+3. **Setup Kubernetes Cluster**: Set up a Kubernetes cluster using a local provider (e.g., Kind, Minikube). Follow this [guide](https://kubernetes-tutorial.schoolofdevops.com/kind_create_cluster/) to set up a cluster with three nodes and a viewer.
+
+---
+
 ## 🧠 Learn More About MLOps
 
 This project is part of the [**MLOps Bootcamp**](https://schoolofdevops.com) at School of DevOps, where you'll learn how to:
