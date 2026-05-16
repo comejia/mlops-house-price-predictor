@@ -188,11 +188,39 @@ This project is part of the [**MLOps Bootcamp**](https://schoolofdevops.com) at 
 
 ---
 
+## Helm chart for Graphana and Prometheus
+To monitor your FastAPI and Streamlit applications, you can use Helm charts to deploy Grafana and Prometheus on your Kubernetes cluster. Follow these steps:
+1. **Install Helm**: If you haven't already, install Helm on your local machine.
+```bash
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+```
+2. **Add Helm Repositories**: Add the necessary Helm repositories for Grafana and Prometheus (stack).
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+```
+3. **Install Prometheus and Grafana**: Install Prometheus and Grafana using Helm.
+```bash
+helm upgrade --install prom-stack \
+   -n monitoring \
+   --create-namespace \
+   prometheus-community/kube-prometheus-stack \
+   --set grafana.service.type=NodePort \
+   --set grafana.service.nodePort=30200 \
+   --set prometheus.service.type=NodePort \
+   --set prometheus.service.nodePort=30300
+```
+4. **Access Grafana and Prometheus**: Once Grafana and Prometheus are installed, you can access Grafana at `http://localhost:30200` and Prometheus at `http://localhost:30300`. To get the Grafana admin password, run:
+```bash
+kubectl --namespace monitoring get secrets prom-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+```
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions, issues, and suggestions to make this project even better. Feel free to fork, explore, and raise PRs!
 
 ---
 
-Happy Learning!  
-— Team **School of DevOps**
+
