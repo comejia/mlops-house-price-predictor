@@ -138,7 +138,7 @@ python src/models/train_model.py   --config configs/model_config.yaml   --data d
 
 The code for both the apps are available in `src/api` and `streamlit_app` already. To build and launch these apps 
 
-  * Add a  `Dockerfile` in the root of the source code for building FastAPI  
+  * Add a `Dockerfile` in the root of the source code for building FastAPI  
   * Add `streamlit_app/Dockerfile` to package and build the Streamlit app  
   * Add `docker-compose.yaml` in the root path to launch both these apps. be sure to provide `API_URL=http://fastapi:8000` in the streamlit app's environment. 
 
@@ -173,18 +173,12 @@ To deploy the FastAPI and Streamlit apps on Kubernetes, you can follow these ste
 2. **Push to Container Registry**: Push the built images to a container registry like Docker Hub or Google Container Registry.
 3. **Setup Kubernetes Cluster**: Set up a Kubernetes cluster using a local provider (e.g., Kind, Minikube). Follow this [guide](https://kubernetes-tutorial.schoolofdevops.com/kind_create_cluster/) to set up a cluster with three nodes and a viewer.
 
----
 
-## 🧠 Learn More About MLOps
-
-This project is part of the [**MLOps Bootcamp**](https://schoolofdevops.com) at School of DevOps, where you'll learn how to:
-
-- Build and track ML pipelines
-- Containerize and deploy models
-- Automate training workflows using GitHub Actions or Argo Workflows
-- Apply DevOps principles to Machine Learning systems
-
-🔗 [Get Started with MLOps →](https://schoolofdevops.com)
+### Troubleshooting Kubernetes Deployment
+- After update an image and pushing to registry, if you are not seeing the changes reflected in the cluster. To deploy the new image:
+```bash
+kubectl rollout restart deployment <deployment-name>>
+```
 
 ---
 
@@ -214,6 +208,39 @@ helm upgrade --install prom-stack \
 ```bash
 kubectl --namespace monitoring get secrets prom-stack-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
 ```
+
+---
+
+## Autoscaling with KEDA
+To enable autoscaling for your FastAPI and Streamlit applications based on metrics, you can use KEDA (Kubernetes Event-driven Autoscaling). Follow these steps:
+1. **Install KEDA**: Install KEDA on your Kubernetes cluster.
+```bash
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+helm install keda kedacore/keda \
+  --namespace keda \
+  --create-namespace
+```
+2. **Configure ScaledObject**: Create a `ScaledObject` YAML file to define the scaling behavior for your applications based on specific metrics (e.g., CPU usage, custom metrics). See file `keda/fastapi-scaledobject.yaml` for an example configuration.
+3. **Apply ScaledObject**: Apply the `ScaledObject` configuration to your Kubernetes cluster.
+```bash
+kubectl apply -f keda/fastapi-scaledobject.yaml
+```
+4. **Monitor Autoscaling**: Monitor the scaling behavior of your applications using `kubectl get hpa` to see the Horizontal Pod Autoscaler in action.
+
+---
+
+
+## 🧠 Learn More About MLOps
+
+This project is part of the [**MLOps Bootcamp**](https://schoolofdevops.com) at School of DevOps, where you'll learn how to:
+
+- Build and track ML pipelines
+- Containerize and deploy models
+- Automate training workflows using GitHub Actions or Argo Workflows
+- Apply DevOps principles to Machine Learning systems
+
+🔗 [Get Started with MLOps →](https://schoolofdevops.com)
 
 ---
 
